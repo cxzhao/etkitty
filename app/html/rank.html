@@ -1,0 +1,135 @@
+<div id="main-context" class="main container-fluid"
+	style="margin-top: 20px;">
+	<div id="div-search-result">
+		<div class="row" style="margin: -1px;">
+			<div
+				class="col-xs-12 col-sm-12 col-md-3 col-md-offset-1 col-sm-offset-0 col-xs-offset-0 visible-md-block visible-lg-block">
+				<div class="update">
+					<div class="navbar-example">
+						<div class="list-group">
+							<a href="et/main.html#/news?type=0" class="list-group-item">
+								<h4 class="text-h4">热门情报</h4>
+							</a> <a href="et/main.html#/newsdetail?id={{news?.id}}"
+								class="list-group-item" *ngFor='let news of infoArray'>
+								<div class="row">
+									<div class="col-xs-4 col-sm-4 col-md-4 news-list-padding">
+										<img class="img-responsive" src="{{news?.image}}"
+											alt="图片被外星人吃掉了！">
+									</div>
+									<div class="col-xs-8 col-sm-8 col-md-8 news-list-padding">
+										<h5 class="text-h5">{{news?.title}}</h5>
+										<p class="list-group-item-text">
+											<span class="span-5">{{news?.time | date:'yyyy-MM-dd
+												HH:mm:ss'}}</span>
+										</p>
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="list-group">
+							<a href="et/main.html#/news?type=1" class="list-group-item">
+								<h4 class="text-h4">热门资讯</h4>
+							</a> <a href="et/main.html#/newsdetail?id={{news?.id}}"
+								class="list-group-item" *ngFor='let news of newsArray'>
+								<div class="row">
+									<div class="col-xs-4 col-sm-4 col-md-4 news-list-padding">
+										<img class="img-responsive" src="{{news?.image}}"
+											alt="图片被外星人吃掉了！">
+									</div>
+									<div class="col-xs-8 col-sm-8 col-md-8 news-list-padding">
+										<h5 class="text-h5">{{news?.title}}</h5>
+										<p class="list-group-item-text">
+											<span class="span-5">{{news?.time | date:'yyyy-MM-dd
+												HH:mm:ss'}}</span>
+										</p>
+									</div>
+								</div>
+							</a>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="div-padding-left-right-3 col-xs-12 col-sm-12 col-md-7">
+				<div class="panel panel-default panel-margin">
+
+					<ul class="list-group">
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="checkbox" style="margin: 0px;">
+										<span><span class="span-type">地区：</span><label
+											class="label-1"><input name="area" value="japan"
+												type="checkbox">日本</label> <label class="label-1"> <input
+												name="area" value="china" type="checkbox">中国
+										</label></span> <span> <span class="span-type">状态：</span><label
+											class="label-1"><input name="isEnd" value="0"
+												type="checkbox">更新中</label> <label class="label-1">
+												<input name="isEnd" value="1" type="checkbox">已完结
+										</label><label><a href="javascript:void(0)"
+												(click)="getCartoonByType(0)">查询</a></label></span>
+									</div>
+								</div>
+
+							</div>
+						</li>
+						<li class="list-group-item"><span class="span-type">类型：</span><span
+							class="span-type"><a href="javascript:void(0)"
+								(click)="getCartoonByType(0)">全部</a></span> <span
+							*ngFor='let type of typeArray' class="span-type"><a
+								href="javascript:void(0)" (click)="getCartoonByType(type.id)">{{type?.typeName}}</a></span></li>
+
+
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-12 col-md-7"
+				style="padding: 0px;">
+				<div class="col-xs-6 col-sm-6 col-md-4"
+					*ngFor='let cartoon of cartoonArray'>
+					<div class="thumbnail">
+						<div>
+							<img class="img-responsive cartoon-img"
+								src="{{cartoon?.themeImage}}" alt="图片被外星人吃掉了！">
+						</div>
+
+						<div class="caption">
+							<h4>
+								<a routerLink="/detail">{{cartoon?.name}}</a>
+							</h4>
+							<p>{{cartoon?.shortIntro}}</p>
+							<div>
+								<div style="line-height: 20px">
+									<a href="javascript:void(0)" (click)="comment(cartoon.id)"><span
+										class="span-1 glyphicon glyphicon-comment"></span></a> <span>({{cartoon?.commentCount}})</span>
+									<a href="javascript:void(0)"><span
+										class="span-love-1 glyphicon glyphicon-heart"></span></a> <span>({{cartoon?.loveCount}})</span><span
+										class="badge span-6">{{cartoon?.score}}分</span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+		<div
+			class="col-xs-12 col-sm-8 col-md-8 col-md-offset-3 col-sm-offset-2 col-xs-offset-0">
+			<nav style="text-align: center">
+				<ul class="pagination pagination-lg">
+					<li><a href="javascript:void(0)" (click)="prep()" >&laquo;</a></li>
+					<li *ngFor="let page of pageList"><a href="javascript:void(0)" (click)="pageSearch(page)">{{page}}</a></li>
+					<li><a href="javascript:void(0)" (click)="last()" >&raquo;</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	</div>
+</div>
