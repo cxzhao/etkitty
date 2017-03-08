@@ -159,7 +159,7 @@ h5{
 
 .span-5{
 	color:#CCCCCC;
-	font-size:12px;	
+	font-size:12px;
 }
 
 .span-6{
@@ -187,7 +187,7 @@ h5{
 }
 
 .span-10{
-	color:#33CCCC;	
+	color:#33CCCC;
 }
 
 .span-11{
@@ -242,7 +242,7 @@ h5{
 }
 
 .comment-text-1{
-	color:#FFCC00;	
+	color:#FFCC00;
 	font-size:23px;
 	line-height:22px;
 }
@@ -330,7 +330,7 @@ h5{
 
 .span-type{
 	line-height:15px;
-	font-size:14px;	
+	font-size:14px;
 	padding:3px;
 	white-space: nowrap;
 	color:#999999;
@@ -344,11 +344,11 @@ h5{
 	border:1px solid #CCCCCC;
 	border-radius:5px;
 	padding:3px;
-	white-space: nowrap;	
+	white-space: nowrap;
 	float:left;
 	margin-right:5px;
 	margin-top:5px;
-	
+
 }
 
 .span-tag a{
@@ -368,7 +368,7 @@ h5{
 }
 
 .commit-reply{
-	display:none;
+	display:block;
 }
 
 .height-10{

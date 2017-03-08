@@ -35,10 +35,17 @@ var LoginModalComponent = (function () {
         this.userService.login(this.email, jQuery.md5(this.password)).then(function (res) {
             var user = new user_1.User();
             if (res.isLogin == true) {
+                /*向其他组件推送用户信息*/
+                _this.userService.updateUser(res);
+                _this.userService.getUser();
                 _this.close();
             }
         });
     };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', user_1.User)
+    ], LoginModalComponent.prototype, "user", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
@@ -52,7 +59,8 @@ var LoginModalComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'login-modal-app',
-            templateUrl: '../html/login_modal.html'
+            templateUrl: '../html/login_modal.html',
+            providers: []
         }), 
         __metadata('design:paramtypes', [user_service_1.UserService])
     ], LoginModalComponent);

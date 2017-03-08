@@ -17,12 +17,17 @@ var NewsService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.newsUrl = const_1.baseUrl + '/news/query';
+        this.detailUrl = const_1.baseUrl + '/news/detail';
     }
     NewsService.prototype.getNews = function (type, pageNumber, pageSize, keyword, tagId) {
         var url = this.newsUrl + "?type=" + type + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&status=1&keyword=" + keyword + "&tagId=" + tagId;
         return this.http.get(url, { headers: this.headers }).toPromise()
             .then(this.extractNewsData)
             .catch(this.handleError);
+    };
+    NewsService.prototype.getDetail = function (id) {
+        var url = this.detailUrl + "?id=" + id;
+        return this.http.get(url, { headers: this.headers }).toPromise().then(this.extractNewsData).catch(this.handleError);
     };
     NewsService.prototype.extractNewsData = function (res) {
         return res.json();

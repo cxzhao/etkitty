@@ -35,7 +35,8 @@ var CommentModalComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'comment-modal-app',
-            templateUrl: '../html/comment_modal.html'
+            templateUrl: '../html/comment_modal.html',
+            providers: []
         }), 
         __metadata('design:paramtypes', [user_service_1.UserService])
     ], CommentModalComponent);

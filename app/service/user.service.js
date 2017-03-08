@@ -17,18 +17,32 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var user_1 = require('../model/user');
 var base_service_1 = require('./base.service');
+var ng2_cookies_1 = require('ng2-cookies/ng2-cookies');
 require('rxjs/add/operator/toPromise');
+var Subject_1 = require("rxjs/Subject");
 var const_1 = require('../model/const');
 var UserService = (function (_super) {
     __extends(UserService, _super);
     function UserService(http) {
         _super.call(this);
         this.http = http;
+        this.userSubject = new Subject_1.Subject();
+        this.user$ = this.userSubject.asObservable();
         this.url = const_1.baseUrl + '/user/me';
         this.loginUrl = const_1.baseUrl + '/user/login';
     }
+    /*向多个组件推送user*/
+    UserService.prototype.updateUser = function (user) {
+        console.log('推送用户信息更新通知' + user.token);
+        this.userSubject.next(user);
+    };
     UserService.prototype.getUser = function () {
-        return this.http.get(this.url, this.options).toPromise()
+        var token = ng2_cookies_1.Cookie.get('token');
+        var url = '';
+        if (token != null && token != '') {
+            url = this.url + '?token=' + token;
+        }
+        return this.http.get(url, this.options).toPromise()
             .then(this.extractData)
             .catch(this.handleError);
     };
@@ -53,11 +67,18 @@ var UserService = (function (_super) {
             user.headImage = body.headImage;
             user.email = body.email;
         }
+        ng2_cookies_1.Cookie.delete('token');
+        ng2_cookies_1.Cookie.delete('status');
+        ng2_cookies_1.Cookie.delete('id');
+        ng2_cookies_1.Cookie.set('token', user.token, 1);
+        ng2_cookies_1.Cookie.set('id', body.userId, 1);
         if (res.json().code == '000000') {
             user.isLogin = true;
+            ng2_cookies_1.Cookie.set('status', 'true', 1);
         }
         else {
             user.isLogin = false;
+            ng2_cookies_1.Cookie.set('status', 'false', 1);
         }
         return user;
     };

@@ -1,8 +1,7 @@
-import { Component,OnInit,Injectable} from '@angular/core';
+import { Component,OnInit,Injectable,Input,OnChanges} from '@angular/core';
 import { User } from '../model/user';
 import { UserService } from '../service/user.service';
 
-@Injectable()
 @Component({
   selector: 'nav-app',
   template:`<nav class="navbar-inverse navbar-default"
@@ -56,19 +55,35 @@ import { UserService } from '../service/user.service';
 </nav> `
 })
 
-export class NavComponent implements OnInit{
+export class NavComponent implements OnInit,OnChanges{
+
+  @Input()
+  user:User;
+
+  constructor(public userService:UserService){
+
+  }
 
 	ngOnInit() : void{
 	   this.getUser();
 	}
 
-	constructor(private userService:UserService){}
+  ngOnChanges(){
+    this.userService.user$.subscribe(res=>{
+      //console.log('接收到用户信息更新通知'+res.token);
+      this.user.name=res.name;
+      this.user.token=res.token;
+      this.user.isLogin=res.isLogin;
+      this.user.email=res.email;
+      this.user.headImage=res.headImage;
+    });
+  }
 
-	user:User;
 
   getUser():void{
     this.userService.getUser().then(users=>this.user=users);
   }
+
 
 
 }

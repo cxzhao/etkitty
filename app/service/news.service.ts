@@ -10,7 +10,7 @@ export class NewsService {
 
  private headers = new Headers({'Content-Type': 'application/json'});
  private newsUrl = baseUrl+'/news/query';
-
+ private detailUrl =  baseUrl+'/news/detail';
  constructor(private http: Http) { }
 
  getNews(type:number,pageNumber:number,pageSize:number,keyword:string,tagId:string):Promise<any>{
@@ -20,6 +20,11 @@ export class NewsService {
      .then(this.extractNewsData)
      .catch(this.handleError);
  }
+
+getDetail(id:string){
+  const url = `${this.detailUrl}?id=${id}`;
+  return this.http.get(url,{headers: this.headers}).toPromise().then(this.extractNewsData).catch(this.handleError);
+}
 
  private extractNewsData(res: Response) {
 	  return res.json();

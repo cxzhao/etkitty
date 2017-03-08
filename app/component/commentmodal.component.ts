@@ -6,17 +6,21 @@ import { User } from '../model/user';
 
 declare var jQuery:any;
 declare var $:any;
+
 @Injectable()
 @Component({
   moduleId: module.id,
   selector: 'comment-modal-app',
-  templateUrl:'../html/comment_modal.html'
+  templateUrl:'../html/comment_modal.html',
+  providers: []
 })
 export class CommentModalComponent implements OnInit{
 
   cartoonId:string;
 
-	constructor(private userService:UserService){}
+	constructor(private userService:UserService){
+
+  }
 
   @Input()
   commentText:string;

@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
+import { MainComponent } from './component/main.component';
 
 @Component({
   selector: 'my-app',
   template: `
-	  <nav-app></nav-app>
-	  <router-outlet></router-outlet>
-    <login-modal-app></login-modal-app>
-    <comment-modal-app></comment-modal-app>
-	  <footer-app></footer-app>
+	  <main-app></main-app>
   `,
 })
 export class AppComponent  { name = 'Angular'; }

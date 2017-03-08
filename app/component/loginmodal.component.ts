@@ -1,4 +1,4 @@
-import { Component,OnInit,Input,Injectable} from '@angular/core';
+import { Component,OnInit,Input,Output,Injectable} from '@angular/core';
 import { UserService } from '../service/user.service';
 import { User } from '../model/user';
 
@@ -6,18 +6,19 @@ import { User } from '../model/user';
 
 declare var jQuery:any;
 declare var $:any;
-
 @Injectable()
 @Component({
   moduleId: module.id,
   selector: 'login-modal-app',
-  templateUrl:'../html/login_modal.html'
+  templateUrl:'../html/login_modal.html',
+  providers: []
 })
 export class LoginModalComponent implements OnInit{
 
+  @Input()
   user:User;
 
-	constructor(private userService:UserService){}
+	constructor(public userService:UserService){}
 
   @Input()
   email:string;
@@ -27,6 +28,8 @@ export class LoginModalComponent implements OnInit{
 	ngOnInit():void{
 
 	}
+
+
 
 	open():void{
 
@@ -52,6 +55,9 @@ export class LoginModalComponent implements OnInit{
     this.userService.login(this.email,jQuery.md5(this.password)).then(res=>{
       let user = new User();
       if(res.isLogin==true){
+        /*向其他组件推送用户信息*/
+        this.userService.updateUser(res);
+        this.userService.getUser();
         this.close();
       }
     });
