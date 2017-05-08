@@ -24,8 +24,8 @@ declare var jQuery:any;
 export class RankComponent implements OnInit,OnChanges{
 
 	@Input()
-	cartoonArray:any[];
-	typeArray :any[];
+	cartoonArray:any;
+	typeArray :any;
 	newsArray : NewsInfo [];
 	infoArray : NewsInfo [];
 	page:Page;
@@ -111,7 +111,7 @@ export class RankComponent implements OnInit,OnChanges{
 	}
 
     getNews(){
-    	this.newsService.getNews(1,1,5).then(res=>{
+    	this.newsService.getNews(1,1,5,'','').then(res=>{
     		if('000000'==res.code){
     			var data = res.data.list;
     			if(data!=null){
@@ -128,7 +128,7 @@ export class RankComponent implements OnInit,OnChanges{
     		}
     	});
 
-    	this.newsService.getNews(0,1,5).then(res=>{
+    	this.newsService.getNews(0,1,5,'','').then(res=>{
     		if('000000'==res.code){
     			var data = res.data.list;
     			if(data!=null){

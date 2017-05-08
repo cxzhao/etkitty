@@ -94,7 +94,7 @@ var RankComponent = (function () {
     };
     RankComponent.prototype.getNews = function () {
         var _this = this;
-        this.newsService.getNews(1, 1, 5).then(function (res) {
+        this.newsService.getNews(1, 1, 5, '', '').then(function (res) {
             if ('000000' == res.code) {
                 var data = res.data.list;
                 if (data != null) {
@@ -110,7 +110,7 @@ var RankComponent = (function () {
                 }
             }
         });
-        this.newsService.getNews(0, 1, 5).then(function (res) {
+        this.newsService.getNews(0, 1, 5, '', '').then(function (res) {
             if ('000000' == res.code) {
                 var data = res.data.list;
                 if (data != null) {
@@ -172,7 +172,7 @@ var RankComponent = (function () {
     };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Array)
+        __metadata('design:type', Object)
     ], RankComponent.prototype, "cartoonArray", void 0);
     RankComponent = __decorate([
         core_1.Component({

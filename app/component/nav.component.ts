@@ -20,8 +20,8 @@ import { UserService } from '../service/user.service';
 			<ul class="nav navbar-nav">
 				<li><a routerLink="/rank">推荐榜</a></li>
 				<li><a routerLink="/article">外星热评</a></li>
-				<li><a routerLink="/info">最新情报</a></li>
-				<li><a routerLink="/news">动漫资讯</a></li>
+				<li><a routerLink="/news/0">最新情报</a></li>
+				<li><a routerLink="/news/1">动漫资讯</a></li>
 				<!-- 						<li><a href="#/recommend">网友推荐</a></li> -->
 			</ul>
 

@@ -13,6 +13,7 @@ var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
+/*组件*/
 var app_component_1 = require('./app.component');
 var main_component_1 = require('./component/main.component');
 var nav_component_1 = require('./component/nav.component');
@@ -24,17 +25,22 @@ var commentmodal_component_1 = require('./component/commentmodal.component');
 var information_component_1 = require('./component/information.component');
 var news_component_1 = require('./component/news.component');
 var newsdetail_component_1 = require('./component/newsdetail.component');
+var article_component_1 = require('./component/article.component');
+var writearticle_component_1 = require('./component/writearticle.component');
+/*服务*/
 var news_service_1 = require('./service/news.service');
 var tag_service_1 = require('./service/tag.service');
 var user_service_1 = require('./service/user.service');
+var article_service_1 = require('./service/article.service');
 var comment_service_1 = require('./service/comment.service');
 var love_directive_1 = require('./directive/love.directive');
 var appRoutes = [
     { path: 'rank', component: rank_component_1.RankComponent },
     { path: 'detail', component: cartoondetail_component_1.CartoonDetailComponent },
     { path: 'newsdetail/:id', component: newsdetail_component_1.NewsDetailComponent },
-    { path: 'news', component: news_component_1.NewsComponent },
-    { path: 'info', component: information_component_1.InformationComponent },
+    { path: 'news/:type', component: news_component_1.NewsComponent },
+    { path: 'article', component: article_component_1.ArticleComponent },
+    { path: 'editarticle', component: writearticle_component_1.EditArticleComponent },
     { path: '', component: rank_component_1.RankComponent },
     { path: '**', component: rank_component_1.RankComponent }
 ];
@@ -53,7 +59,8 @@ var AppModule = (function () {
                 loginmodal_component_1.LoginModalComponent,
                 commentmodal_component_1.CommentModalComponent,
                 cartoondetail_component_1.CartoonDetailComponent,
-                news_component_1.NewsComponent, information_component_1.InformationComponent, newsdetail_component_1.NewsDetailComponent, love_directive_1.LoveDirective
+                article_component_1.ArticleComponent,
+                news_component_1.NewsComponent, information_component_1.InformationComponent, newsdetail_component_1.NewsDetailComponent, love_directive_1.LoveDirective, writearticle_component_1.EditArticleComponent
             ],
             bootstrap: [
                 app_component_1.AppComponent
@@ -63,7 +70,7 @@ var AppModule = (function () {
                 news_service_1.NewsService,
                 nav_component_1.NavComponent,
                 tag_service_1.TagService,
-                comment_service_1.CommentService,
+                comment_service_1.CommentService, article_service_1.ArticleService,
                 loginmodal_component_1.LoginModalComponent,
                 commentmodal_component_1.CommentModalComponent
             ]

@@ -13,7 +13,7 @@ export class NewsService {
  private detailUrl =  baseUrl+'/news/detail';
  constructor(private http: Http) { }
 
- getNews(type:number,pageNumber:number,pageSize:number,keyword:string,tagId:string):Promise<any>{
+ getNews(type:number,pageNumber:number,pageSize:number,keyword:string,tagId:string){
 
    const url = `${this.newsUrl}?type=${type}&pageNumber=${pageNumber}&pageSize=${pageSize}&status=1&keyword=${keyword}&tagId=${tagId}`;
 	 return this.http.get(url,{headers: this.headers}).toPromise()
@@ -30,7 +30,7 @@ getDetail(id:string){
 	  return res.json();
  }
 
- private handleError(error: any): Promise<any> {
+ private handleError(error: any){
 	  return Promise.reject(error.message || error);
  }
 

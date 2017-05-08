@@ -1,5 +1,5 @@
 import { Component,OnInit,OnChanges,Input,SimpleChanges} from '@angular/core';
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NewsService }  from '../service/news.service';
 import { TagService }  from '../service/tag.service';
 
@@ -22,15 +22,28 @@ export class NewsComponent implements OnInit,OnChanges{
   tagList : any[];
   keyword:string;
   tagId:string;
-	constructor(private newsService:NewsService,private tagService:TagService){}
+  type:number;
+
+	constructor(private newsService:NewsService,private tagService:TagService,private route: ActivatedRoute,private router: Router){}
 
 	ngOnChanges(changes:SimpleChanges):void{
 		 console.log('ngOnChanges');
 	}
 
 	ngOnInit():void{
-		this.getNews(1,1,20,'','');
-    this.getHotTag(1,1,20);
+    let type = this.route.snapshot.params['type'];
+    this.type=type;
+    if(type=='0'){
+        this.getNews(0,1,20,'','');
+        this.getHotTag(0,1,20);
+    }else if(type=='1'){
+      this.getNews(1,1,20,'','');
+      this.getHotTag(1,1,20);
+    }else{
+      this.getNews(1,1,20,'','');
+      this.getHotTag(1,1,20);
+    }
+
 		var isEnd = 1+'';
 	}
 
@@ -91,12 +104,12 @@ export class NewsComponent implements OnInit,OnChanges{
      alert("已经是第一页了！");
    }else{
      page--;
-     this.getNews(1,page,20,this.keyword,this.tagId);
+     this.getNews(this.type,page,20,this.keyword,this.tagId);
    }
  }
 
  pageSearch(page:number):void{
-   this.getNews(1,page,20,this.keyword,this.tagId);
+   this.getNews(this.type,page,20,this.keyword,this.tagId);
  }
 
  last():void{
@@ -106,7 +119,7 @@ export class NewsComponent implements OnInit,OnChanges{
    }
    var page = this.page.pageNumber;
    page++;
-   this.getNews(1,page,20,this.keyword,this.tagId);
+   this.getNews(this.type,page,20,this.keyword,this.tagId);
  }
 
  prepTag(){
@@ -114,21 +127,20 @@ export class NewsComponent implements OnInit,OnChanges{
    if(page==1){
    }else{
      page--;
-     this.getHotTag(1,page,20);
+     this.getHotTag(this.type,page,20);
    }
  }
 
  lastTag(){
-   alert(this.tagPage.last);
    if(this.tagPage.last==true){
      return;
    }
    var page = this.tagPage.pageNumber;
    page++;
-   this.getHotTag(1,page,20);
+   this.getHotTag(this.type,page,20);
  }
 
  queryByTag(tagId:string){
-   this.getNews(1,1,20,this.keyword,tagId);
+   this.getNews(this.type,1,20,this.keyword,tagId);
  }
 }

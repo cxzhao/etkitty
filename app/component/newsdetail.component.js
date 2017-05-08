@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var news_service_1 = require("../service/news.service");
-var comment_service_1 = require("../service/comment.service");
-var ng2_cookies_1 = require("ng2-cookies/ng2-cookies");
-var loginmodal_component_1 = require("../component/loginmodal.component");
-require("rxjs/add/operator/switchMap");
+var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var news_service_1 = require('../service/news.service');
+var comment_service_1 = require('../service/comment.service');
+var ng2_cookies_1 = require('ng2-cookies/ng2-cookies');
+var loginmodal_component_1 = require('../component/loginmodal.component');
+require('rxjs/add/operator/switchMap');
 var NewsDetailComponent = (function () {
     function NewsDetailComponent(newsService, commentService, route, router, loginModal) {
         this.newsService = newsService;
@@ -24,11 +24,16 @@ var NewsDetailComponent = (function () {
         this.loginModal = loginModal;
     }
     NewsDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //this.newsId='1234567890';
         var id = this.route.snapshot.params['id'];
+        this.route.queryParams.subscribe(function (params) {
+            _this.type = params['type'];
+        });
         this.newsId = id;
         this.userId = ng2_cookies_1.Cookie.get('id');
         this.getNewsDetail(id);
-        this.getComment(1, 20, id, 0);
+        this.getComment(1, 20, id, this.type);
     };
     NewsDetailComponent.prototype.getNewsDetail = function (newsId) {
         var _this = this;
@@ -92,6 +97,7 @@ var NewsDetailComponent = (function () {
             }
         }).catch();
     };
+    /*控制评论框是否显示*/
     NewsDetailComponent.prototype.showReply = function (comment) {
         this.objUserId = comment.userId;
         this.objId = comment.id;
@@ -147,23 +153,23 @@ var NewsDetailComponent = (function () {
             }
         }).catch();
     };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], NewsDetailComponent.prototype, "comment", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], NewsDetailComponent.prototype, "replyContext", void 0);
+    NewsDetailComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'news-detail-app',
+            templateUrl: '../html/news_detail.html'
+        }), 
+        __metadata('design:paramtypes', [news_service_1.NewsService, comment_service_1.CommentService, router_1.ActivatedRoute, router_1.Router, loginmodal_component_1.LoginModalComponent])
+    ], NewsDetailComponent);
     return NewsDetailComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], NewsDetailComponent.prototype, "comment", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], NewsDetailComponent.prototype, "replyContext", void 0);
-NewsDetailComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'news-detail-app',
-        templateUrl: '../html/news_detail.html'
-    }),
-    __metadata("design:paramtypes", [news_service_1.NewsService, comment_service_1.CommentService, router_1.ActivatedRoute, router_1.Router, loginmodal_component_1.LoginModalComponent])
-], NewsDetailComponent);
 exports.NewsDetailComponent = NewsDetailComponent;
 //# sourceMappingURL=newsdetail.component.js.map

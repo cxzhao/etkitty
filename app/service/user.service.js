@@ -33,7 +33,6 @@ var UserService = (function (_super) {
     }
     /*向多个组件推送user*/
     UserService.prototype.updateUser = function (user) {
-        console.log('推送用户信息更新通知' + user.token);
         this.userSubject.next(user);
     };
     UserService.prototype.getUser = function () {

@@ -9,21 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var news_service_1 = require('../service/news.service');
 var tag_service_1 = require('../service/tag.service');
 var newsinfo_1 = require('../model/newsinfo');
 var page_1 = require('../model/page');
 var NewsComponent = (function () {
-    function NewsComponent(newsService, tagService) {
+    function NewsComponent(newsService, tagService, route, router) {
         this.newsService = newsService;
         this.tagService = tagService;
+        this.route = route;
+        this.router = router;
     }
     NewsComponent.prototype.ngOnChanges = function (changes) {
         console.log('ngOnChanges');
     };
     NewsComponent.prototype.ngOnInit = function () {
-        this.getNews(1, 1, 20, '', '');
-        this.getHotTag(1, 1, 20);
+        var type = this.route.snapshot.params['type'];
+        this.type = type;
+        if (type == '0') {
+            this.getNews(0, 1, 20, '', '');
+            this.getHotTag(0, 1, 20);
+        }
+        else if (type == '1') {
+            this.getNews(1, 1, 20, '', '');
+            this.getHotTag(1, 1, 20);
+        }
+        else {
+            this.getNews(1, 1, 20, '', '');
+            this.getHotTag(1, 1, 20);
+        }
         var isEnd = 1 + '';
     };
     NewsComponent.prototype.getHotTag = function (type, pageNumber, pageSize) {
@@ -80,11 +95,11 @@ var NewsComponent = (function () {
         }
         else {
             page--;
-            this.getNews(1, page, 20, this.keyword, this.tagId);
+            this.getNews(this.type, page, 20, this.keyword, this.tagId);
         }
     };
     NewsComponent.prototype.pageSearch = function (page) {
-        this.getNews(1, page, 20, this.keyword, this.tagId);
+        this.getNews(this.type, page, 20, this.keyword, this.tagId);
     };
     NewsComponent.prototype.last = function () {
         if (this.page.last == true) {
@@ -93,7 +108,7 @@ var NewsComponent = (function () {
         }
         var page = this.page.pageNumber;
         page++;
-        this.getNews(1, page, 20, this.keyword, this.tagId);
+        this.getNews(this.type, page, 20, this.keyword, this.tagId);
     };
     NewsComponent.prototype.prepTag = function () {
         var page = this.tagPage.pageNumber;
@@ -101,20 +116,19 @@ var NewsComponent = (function () {
         }
         else {
             page--;
-            this.getHotTag(1, page, 20);
+            this.getHotTag(this.type, page, 20);
         }
     };
     NewsComponent.prototype.lastTag = function () {
-        alert(this.tagPage.last);
         if (this.tagPage.last == true) {
             return;
         }
         var page = this.tagPage.pageNumber;
         page++;
-        this.getHotTag(1, page, 20);
+        this.getHotTag(this.type, page, 20);
     };
     NewsComponent.prototype.queryByTag = function (tagId) {
-        this.getNews(1, 1, 20, this.keyword, tagId);
+        this.getNews(this.type, 1, 20, this.keyword, tagId);
     };
     NewsComponent = __decorate([
         core_1.Component({
@@ -122,7 +136,7 @@ var NewsComponent = (function () {
             selector: 'news-app',
             templateUrl: '../html/newslist.html'
         }), 
-        __metadata('design:paramtypes', [news_service_1.NewsService, tag_service_1.TagService])
+        __metadata('design:paramtypes', [news_service_1.NewsService, tag_service_1.TagService, router_1.ActivatedRoute, router_1.Router])
     ], NewsComponent);
     return NewsComponent;
 }());

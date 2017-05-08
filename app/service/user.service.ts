@@ -25,7 +25,6 @@ export class UserService extends BaseService{
 
  /*向多个组件推送user*/
  updateUser(user:User){
-  console.log('推送用户信息更新通知'+user.token);
   this.userSubject.next(user);
  }
 

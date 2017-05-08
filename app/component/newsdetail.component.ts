@@ -29,7 +29,7 @@ export class NewsDetailComponent implements OnInit{
   objUserId:string;
   userId:string;
   objId:string;
-
+  type:number;
   isLast:boolean;
 
   @Input()
@@ -46,10 +46,14 @@ export class NewsDetailComponent implements OnInit{
 	ngOnInit():void{
     //this.newsId='1234567890';
     let id = this.route.snapshot.params['id'];
+    this.route.queryParams.subscribe((params: Params) => {
+      this.type=params['type'];
+    });
+
     this.newsId = id;
     this.userId=Cookie.get('id');
     this.getNewsDetail(id);
-    this.getComment(1,20,id,0);
+    this.getComment(1,20,id,this.type);
 	}
 
   private getNewsDetail(newsId:string){

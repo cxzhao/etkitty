@@ -4,6 +4,7 @@ import { FormsModule }   from '@angular/forms';
 import { RouterModule,Routes,Router,ActivatedRoute,Params,RouterLink} from '@angular/router';
 import { HttpModule}  from '@angular/http';
 
+/*组件*/
 import { AppComponent }  from './app.component';
 import { MainComponent }  from './component/main.component';
 import { NavComponent }  from './component/nav.component';
@@ -15,23 +16,27 @@ import { CommentModalComponent } from './component/commentmodal.component';
 import { InformationComponent } from './component/information.component';
 import { NewsComponent } from './component/news.component';
 import { NewsDetailComponent } from './component/newsdetail.component';
+import { ArticleComponent } from './component/article.component';
+import { EditArticleComponent } from './component/writearticle.component';
+/*服务*/
 import { NewsService }  from './service/news.service';
 import { TagService }  from './service/tag.service';
 import { UserService }  from './service/user.service';
-
+import { ArticleService }  from './service/article.service';
 import { CommentService }  from './service/comment.service';
 
 import { LoveDirective }  from './directive/love.directive';
+
 
 const appRoutes: Routes = [
   { path: 'rank', component: RankComponent },
   { path: 'detail',component: CartoonDetailComponent },
   { path: 'newsdetail/:id',component: NewsDetailComponent },
-  { path: 'news', component: NewsComponent },
-  { path: 'info', component: InformationComponent },
+  { path: 'news/:type', component: NewsComponent },
+  { path: 'article', component: ArticleComponent },
+  { path: 'editarticle', component: EditArticleComponent },
   { path: '', component: RankComponent },
   { path: '**', component: RankComponent }
-
 ];
 
 @NgModule({
@@ -45,7 +50,8 @@ const appRoutes: Routes = [
     LoginModalComponent,
     CommentModalComponent,
     CartoonDetailComponent,
-    NewsComponent,InformationComponent,NewsDetailComponent,LoveDirective
+    ArticleComponent,
+    NewsComponent,InformationComponent,NewsDetailComponent,LoveDirective,EditArticleComponent
   ],
   bootstrap:    [
     AppComponent
@@ -55,7 +61,7 @@ const appRoutes: Routes = [
     NewsService,
     NavComponent,
     TagService,
-    CommentService,
+    CommentService,ArticleService,
     LoginModalComponent,
     CommentModalComponent
   ]
