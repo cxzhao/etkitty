@@ -24,13 +24,13 @@ import { TagService }  from './service/tag.service';
 import { UserService }  from './service/user.service';
 import { ArticleService }  from './service/article.service';
 import { CommentService }  from './service/comment.service';
-
+import { CartoonService }  from './service/cartoon.service';
 import { LoveDirective }  from './directive/love.directive';
-
+import { MasonryModule } from 'angular2-masonry';
 
 const appRoutes: Routes = [
   { path: 'rank', component: RankComponent },
-  { path: 'detail',component: CartoonDetailComponent },
+  { path: 'detail/:id',component: CartoonDetailComponent },
   { path: 'newsdetail/:id',component: NewsDetailComponent },
   { path: 'news/:type', component: NewsComponent },
   { path: 'article', component: ArticleComponent },
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports:      [ BrowserModule,RouterModule,FormsModule,HttpModule,RouterModule.forRoot(appRoutes)],
+  imports:      [ BrowserModule,RouterModule,FormsModule,HttpModule,RouterModule.forRoot(appRoutes),MasonryModule],
   declarations: [
     AppComponent,
     MainComponent,
@@ -63,7 +63,8 @@ const appRoutes: Routes = [
     TagService,
     CommentService,ArticleService,
     LoginModalComponent,
-    CommentModalComponent
+    CommentModalComponent,CartoonService
+
   ]
 })
 export class AppModule { }

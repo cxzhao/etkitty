@@ -1,19 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Headers,Http,Response } from '@angular/http';
+import { Headers,Http,Response,URLSearchParams } from '@angular/http';
 import { Cartoon } from '../model/cartoon';
 import { baseUrl } from '../model/const';
+import { BaseService } from './base.service';
 import 'rxjs/add/operator/toPromise';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable()
- export class CartoonService {
-
- private headers = new Headers({'Content-Type': 'application/json'});
+ export class CartoonService extends BaseService{
 
  private cartoonQueryUrl = baseUrl+'/cartoon/query';
 
- constructor(private http: Http) { }
+ private cartoonLoveUrl = baseUrl+'/cartoon/love';
 
- getCartoon(type:string,keyword:string,pageNumber:number,pageSize:number,isEnd:string,area:string){
+ private cartoonDetailUrl=baseUrl+'/cartoon/detail';
+
+ constructor(private http: Http) {
+   super();
+  }
+
+ getCartoon(type:string,keyword:string,pageNumber:number,pageSize:number,isEnd:number,area:string){
 	 const url = `${this.cartoonQueryUrl}?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}&pageSize=${pageSize}&isEnd=${isEnd}&area=${area}`;
 
 	 return this.http.get(url,{headers: this.headers})
@@ -23,12 +29,25 @@ import 'rxjs/add/operator/toPromise';
  }
 
 
- private extractData(res: Response) {
+private extractData(res: Response) {
 	  return res.json();
 }
 
- private handleError(error: any): Promise<any> {
-	  return Promise.reject(error.message || error);
+
+ love(cartoonId:string){
+   let userId = Cookie.get('id');
+   let urlSearchParams = new URLSearchParams();
+   urlSearchParams.append('cartoonId', cartoonId);
+   urlSearchParams.append('userId', userId);
+   console.log("cartoonId="+cartoonId+",userId="+userId);
+
+   return this.http.post(this.cartoonLoveUrl,urlSearchParams,this.postOptions).toPromise()
+   .then(this.extractData).catch(this.handleError);
+ }
+
+ queryCartoonDetail(id:string){
+   const url = `${this.cartoonDetailUrl}?cartoonId=${id}`;
+	 return this.http.get(url,{headers: this.headers}).toPromise().then(this.extractData).catch(this.handleError);
  }
 
 }

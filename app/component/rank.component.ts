@@ -4,11 +4,11 @@ import { NewsService }  from '../service/news.service';
 import { CartoonService }  from '../service/cartoon.service';
 import { TypeService }  from '../service/type.service';
 import { UserService } from '../service/user.service';
-
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { NewsInfo } from '../model/newsinfo';
 import { Page } from '../model/page';
 import { CartoonSearch } from '../model/CartoonSearch';
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LoginModalComponent } from '../component/loginmodal.component';
 import { CommentModalComponent } from '../component/commentmodal.component';
 
@@ -18,7 +18,7 @@ declare var jQuery:any;
   moduleId: module.id,
   selector: 'rank-app',
   templateUrl:'../html/rank.html',
-  providers: [ CartoonService,TypeService,LoginModalComponent,CommentModalComponent]
+  providers: [TypeService]
 })
 
 export class RankComponent implements OnInit,OnChanges{
@@ -42,8 +42,7 @@ export class RankComponent implements OnInit,OnChanges{
 
 	ngOnInit():void{
 		this.getNews();
-		var isEnd = 1+'';
-		this.getCartoon('','',1,20,isEnd,'japan');
+		this.getCartoon('','',1,20,-1,'japan');
 		this.getType();
 		console.log('ngOnInit');
 	}
@@ -57,7 +56,7 @@ export class RankComponent implements OnInit,OnChanges{
 	 });
 	}
 
-	getCartoon(type:string,keyword:string,pageNumber:number,pageSize:number,isEnd:string,area:string){
+	getCartoon(type:string,keyword:string,pageNumber:number,pageSize:number,isEnd:number,area:string){
 		this.cartoon = new CartoonSearch();
 		this.cartoon.type = type;
 		this.cartoon.keyword = keyword;
@@ -83,7 +82,7 @@ export class RankComponent implements OnInit,OnChanges{
 
 	getCartoonByType(type:string){
 		var area = '';
-		var isEnd = '';
+		var isEnd = -1;
 
 		jQuery('input:checkbox[name=area]:checked').each(function(i){
 	        if(0==i){
@@ -97,7 +96,7 @@ export class RankComponent implements OnInit,OnChanges{
 	        if(0==i){
 	        	isEnd = jQuery(this).val();
 	        }else{
-	        	isEnd += (","+jQuery(this).val());
+	        	isEnd = jQuery(this).val();
 	        }
 	    });
 
@@ -146,24 +145,6 @@ export class RankComponent implements OnInit,OnChanges{
     	});
     }
 
-    masonry(){
-    	var $container = jQuery('.result');
-		$container.imagesLoaded(function() {
-			 $container.masonry({
-					columnWidth : '.result-item',
-					itemSelector : '.result-item',
-					isAnimated: true
-			});
-		});
-    }
-
-    reloadmasonry(){
-    	var $container = jQuery('.result');
-		$container.imagesLoaded(function() {
-			$container.masonry('destroy');
-			$container.masonry();
-		});
-    }
 
    prep():void{
 		var page = this.page.pageNumber;
@@ -190,7 +171,29 @@ export class RankComponent implements OnInit,OnChanges{
 	}
 
 	comment(id:string):void{
-    this.loginModal.open();
-    //this.commentmodal.open();
+    /*判断是否登陆*/
+    let status=Cookie.get('status');
+    if(status=='true'){
+      this.commentmodal.open();
+      return;
+    }else{
+      this.loginModal.open();
+      return;
+    }
 	}
+
+  love(cartoon:any):void{
+    if(typeof(cartoon.isClicked)=='undefined'||cartoon.isClicked==false){
+      cartoon.loveCount = cartoon.loveCount+1;
+		  cartoon.isClicked=true;
+      this.cartoonService.love(cartoon.id).then(res=>{
+        if(res.code!='000000'){
+          cartoon.loveCount = cartoon.loveCount-1;
+        }
+      });
+    }else{
+      return;
+    }
+  }
+
 }

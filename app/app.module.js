@@ -33,10 +33,12 @@ var tag_service_1 = require('./service/tag.service');
 var user_service_1 = require('./service/user.service');
 var article_service_1 = require('./service/article.service');
 var comment_service_1 = require('./service/comment.service');
+var cartoon_service_1 = require('./service/cartoon.service');
 var love_directive_1 = require('./directive/love.directive');
+var angular2_masonry_1 = require('angular2-masonry');
 var appRoutes = [
     { path: 'rank', component: rank_component_1.RankComponent },
-    { path: 'detail', component: cartoondetail_component_1.CartoonDetailComponent },
+    { path: 'detail/:id', component: cartoondetail_component_1.CartoonDetailComponent },
     { path: 'newsdetail/:id', component: newsdetail_component_1.NewsDetailComponent },
     { path: 'news/:type', component: news_component_1.NewsComponent },
     { path: 'article', component: article_component_1.ArticleComponent },
@@ -49,7 +51,7 @@ var AppModule = (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, router_1.RouterModule, forms_1.FormsModule, http_1.HttpModule, router_1.RouterModule.forRoot(appRoutes)],
+            imports: [platform_browser_1.BrowserModule, router_1.RouterModule, forms_1.FormsModule, http_1.HttpModule, router_1.RouterModule.forRoot(appRoutes), angular2_masonry_1.MasonryModule],
             declarations: [
                 app_component_1.AppComponent,
                 main_component_1.MainComponent,
@@ -72,7 +74,7 @@ var AppModule = (function () {
                 tag_service_1.TagService,
                 comment_service_1.CommentService, article_service_1.ArticleService,
                 loginmodal_component_1.LoginModalComponent,
-                commentmodal_component_1.CommentModalComponent
+                commentmodal_component_1.CommentModalComponent, cartoon_service_1.CartoonService
             ]
         }), 
         __metadata('design:paramtypes', [])

@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var news_service_1 = require('../service/news.service');
 var cartoon_service_1 = require('../service/cartoon.service');
 var type_service_1 = require('../service/type.service');
+var ng2_cookies_1 = require('ng2-cookies/ng2-cookies');
 var newsinfo_1 = require('../model/newsinfo');
 var page_1 = require('../model/page');
 var CartoonSearch_1 = require('../model/CartoonSearch');
@@ -30,8 +31,7 @@ var RankComponent = (function () {
     };
     RankComponent.prototype.ngOnInit = function () {
         this.getNews();
-        var isEnd = 1 + '';
-        this.getCartoon('', '', 1, 20, isEnd, 'japan');
+        this.getCartoon('', '', 1, 20, -1, 'japan');
         this.getType();
         console.log('ngOnInit');
     };
@@ -68,7 +68,7 @@ var RankComponent = (function () {
     };
     RankComponent.prototype.getCartoonByType = function (type) {
         var area = '';
-        var isEnd = '';
+        var isEnd = -1;
         jQuery('input:checkbox[name=area]:checked').each(function (i) {
             if (0 == i) {
                 area = jQuery(this).val();
@@ -82,7 +82,7 @@ var RankComponent = (function () {
                 isEnd = jQuery(this).val();
             }
             else {
-                isEnd += ("," + jQuery(this).val());
+                isEnd = jQuery(this).val();
             }
         });
         if (type == '0') {
@@ -127,23 +127,6 @@ var RankComponent = (function () {
             }
         });
     };
-    RankComponent.prototype.masonry = function () {
-        var $container = jQuery('.result');
-        $container.imagesLoaded(function () {
-            $container.masonry({
-                columnWidth: '.result-item',
-                itemSelector: '.result-item',
-                isAnimated: true
-            });
-        });
-    };
-    RankComponent.prototype.reloadmasonry = function () {
-        var $container = jQuery('.result');
-        $container.imagesLoaded(function () {
-            $container.masonry('destroy');
-            $container.masonry();
-        });
-    };
     RankComponent.prototype.prep = function () {
         var page = this.page.pageNumber;
         if (page == 1) {
@@ -167,8 +150,30 @@ var RankComponent = (function () {
         this.getCartoon(this.cartoon.type, this.cartoon.type, page, 20, this.cartoon.isEnd, this.cartoon.area);
     };
     RankComponent.prototype.comment = function (id) {
-        this.loginModal.open();
-        //this.commentmodal.open();
+        /*判断是否登陆*/
+        var status = ng2_cookies_1.Cookie.get('status');
+        if (status == 'true') {
+            this.commentmodal.open();
+            return;
+        }
+        else {
+            this.loginModal.open();
+            return;
+        }
+    };
+    RankComponent.prototype.love = function (cartoon) {
+        if (typeof (cartoon.isClicked) == 'undefined' || cartoon.isClicked == false) {
+            cartoon.loveCount = cartoon.loveCount + 1;
+            cartoon.isClicked = true;
+            this.cartoonService.love(cartoon.id).then(function (res) {
+                if (res.code != '000000') {
+                    cartoon.loveCount = cartoon.loveCount - 1;
+                }
+            });
+        }
+        else {
+            return;
+        }
     };
     __decorate([
         core_1.Input(), 
@@ -179,7 +184,7 @@ var RankComponent = (function () {
             moduleId: module.id,
             selector: 'rank-app',
             templateUrl: '../html/rank.html',
-            providers: [cartoon_service_1.CartoonService, type_service_1.TypeService, loginmodal_component_1.LoginModalComponent, commentmodal_component_1.CommentModalComponent]
+            providers: [type_service_1.TypeService]
         }), 
         __metadata('design:paramtypes', [loginmodal_component_1.LoginModalComponent, commentmodal_component_1.CommentModalComponent, news_service_1.NewsService, cartoon_service_1.CartoonService, type_service_1.TypeService])
     ], RankComponent);

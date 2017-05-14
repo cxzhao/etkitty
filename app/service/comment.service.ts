@@ -21,6 +21,8 @@ export class CommentService extends BaseService{
 
  private deleteUrl = baseUrl+'/etcom/delete';
 
+
+
  constructor(private http: Http) {
    super();
  }
@@ -83,6 +85,7 @@ saveComment(newsId:string,comment:string,type:string){
    return this.http.post(this.loveUrl,urlSearchParams,this.postOptions).toPromise()
    .then(this.extractData).catch(this.handleError);
  }
+
 
  /*删除评论*/
  deleteComment(id:string,objectId:string,type:number){

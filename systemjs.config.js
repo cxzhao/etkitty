@@ -22,11 +22,12 @@
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'ng2-cookies':'npm:ng2-cookies'
+      'ng2-cookies':'npm:ng2-cookies',
+      "angular2-masonry": "node_modules/angular2-masonry",
+      "masonry-layout": "node_modules/masonry-layout/dist/masonry.pkgd.js",
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -40,7 +41,13 @@
       'ng2-cookies': {
         main: 'ng2-cookies.js',
         defaultExtension: 'js'
-      }
+      },
+      "angular2-masonry":
+       {
+         "defaultExtension": "js",
+         "main": "index"
+       }
+
     }
   });
 })(this);

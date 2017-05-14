@@ -10,11 +10,11 @@
 		 <div class="row modal-body">
 			 <div
 				 class="col-xs-12 col-md-12">
-				 <a href="javascript:void(0)" ng-click="clickStart(1)" ng-mouseover="overStart(1)"><span id="start-1" class="span-star glyphicon glyphicon-star" ></span></a>
-				 <a href="javascript:void(0)" ng-click="clickStart(2)" ng-mouseover="overStart(2)"><span id="start-2" class="span-star glyphicon glyphicon-star" ></span></a>
-				 <a href="javascript:void(0)" ng-click="clickStart(3)" ng-mouseover="overStart(3)"><span id="start-3" class="span-star glyphicon glyphicon-star" ></span></a>
-				 <a href="javascript:void(0)" ng-click="clickStart(4)" ng-mouseover="overStart(4)"><span id="start-4" class="span-star glyphicon glyphicon-star" ></span></a>
-				 <a href="javascript:void(0)" ng-click="clickStart(5)" ng-mouseover="overStart(5)"><span id="start-5" class="span-star glyphicon glyphicon-star" ></span></a>
+				 <a href="javascript:void(0)" (click)="clickStart(1)" (mouseover)="overStart(1)"><span id="start-1" class="span-star glyphicon glyphicon-star" ></span></a>
+				 <a href="javascript:void(0)" (click)="clickStart(2)" (mouseover)="overStart(2)"><span id="start-2" class="span-star glyphicon glyphicon-star" ></span></a>
+				 <a href="javascript:void(0)" (click)="clickStart(3)" (mouseover)="overStart(3)"><span id="start-3" class="span-star glyphicon glyphicon-star" ></span></a>
+				 <a href="javascript:void(0)" (click)="clickStart(4)" (mouseover)="overStart(4)"><span id="start-4" class="span-star glyphicon glyphicon-star" ></span></a>
+				 <a href="javascript:void(0)" (click)="clickStart(5)" (mouseover)="overStart(5)"><span id="start-5" class="span-star glyphicon glyphicon-star" ></span></a>
 				 <span id="span-score" class="badge span-6"></span>
 				 <span id="span-score" class="badge span-6"></span>
 			 </div>
@@ -28,8 +28,8 @@
 			 </form>
 			 </div>
 			 <div class="col-xs-12 col-md-12">
-				 <button type="button" class="btn btn-success" ng-click="submitComment()">提交</button>
-				 <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+				 <button type="button" class="btn btn-success" (click)="submitComment()">提交</button>
+				 <button type="button" class="btn btn-default" (click)="close()">取消</button>
 			 </div>
 
 		 </div>

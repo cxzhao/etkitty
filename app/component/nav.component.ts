@@ -4,8 +4,8 @@ import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'nav-app',
-  template:`<nav class="navbar-inverse navbar-default"
-	style="background-color: #006666" role="navigation">
+  template:`<nav class="navbar-default" style="border-bottom:1px #DDDDDD solid"
+	 role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
