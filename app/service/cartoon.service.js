@@ -27,6 +27,8 @@ var CartoonService = (function (_super) {
         this.cartoonQueryUrl = const_1.baseUrl + '/cartoon/query';
         this.cartoonLoveUrl = const_1.baseUrl + '/cartoon/love';
         this.cartoonDetailUrl = const_1.baseUrl + '/cartoon/detail';
+        this.userCommentUrl = const_1.baseUrl + '/etcom/query';
+        this.cartoonTypeUrl = const_1.baseUrl + '/cartoonType/queryByCartoonId';
     }
     CartoonService.prototype.getCartoon = function (type, keyword, pageNumber, pageSize, isEnd, area) {
         var url = this.cartoonQueryUrl + "?type=" + type + "&keyword=" + keyword + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&isEnd=" + isEnd + "&area=" + area;
@@ -49,6 +51,14 @@ var CartoonService = (function (_super) {
     };
     CartoonService.prototype.queryCartoonDetail = function (id) {
         var url = this.cartoonDetailUrl + "?cartoonId=" + id;
+        return this.http.get(url, { headers: this.headers }).toPromise().then(this.extractData).catch(this.handleError);
+    };
+    CartoonService.prototype.queryUserComment = function (page, size, objId) {
+        var url = this.userCommentUrl + "?objectId=" + objId + "&pageNumber=" + page + "&pageSize=" + size + "&type=0";
+        return this.http.get(url, { headers: this.headers }).toPromise().then(this.extractData).catch(this.handleError);
+    };
+    CartoonService.prototype.queryCartoonType = function (id) {
+        var url = this.cartoonTypeUrl + "?cartoonId=" + id;
         return this.http.get(url, { headers: this.headers }).toPromise().then(this.extractData).catch(this.handleError);
     };
     CartoonService = __decorate([

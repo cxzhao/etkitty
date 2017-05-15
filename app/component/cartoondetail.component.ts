@@ -8,6 +8,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import 'rxjs/add/operator/switchMap';
 
+declare var $:any;
+
 @Component({
   moduleId: module.id,
   selector: 'cartoon-detail-app',
@@ -25,6 +27,12 @@ export class CartoonDetailComponent implements OnInit{
   isShowAuthor:boolean;
   isEnd:string;
   score:number;
+  type:string;
+  pageNumber:number;
+  pageSize:number;
+  isLast:boolean;
+  list:any;
+
   constructor(private loginModal:LoginModalComponent,private cartoonService:CartoonService,private route: ActivatedRoute,private router: Router){
 
   }
@@ -33,7 +41,24 @@ export class CartoonDetailComponent implements OnInit{
     let id = this.route.snapshot.params['id'];
     this.id=id;
     this.queryCartoonDetail(id);
+    this.queryUserComment(1,20);
+    this.queryType();
+  }
 
+  queryType(){
+    this.cartoonService.queryCartoonType(this.id).then(res=>{
+      if(res.code=='000000'){
+        let result = res.result.data;
+				this.type='';
+				for(var i=0;i<result.length;i++){
+					if(i==0){
+						this.type+=result[i].typeName;
+					}else{
+						this.type+="，"+result[i].typeName;
+					}
+				}
+      }
+    }).catch();
   }
 
   queryCartoonDetail(id:string){
@@ -91,5 +116,102 @@ export class CartoonDetailComponent implements OnInit{
 
     }).catch();
   }
+
+
+
+  queryUserComment(page:number,size:number):void{
+    this.cartoonService.queryUserComment(page,size,this.id).then(res=>{
+      if(res.code=='000000'){
+          this.pageNumber = res.data.pageNumber;
+					this.pageSize = res.data.pageSize;
+					this.isLast = res.data.last;
+					this.list = res.data.list;
+      }
+    }).catch();
+  }
+
+  private halfstar = ['很差5.5分','还行6.5分','一般7.5分','推荐8.5分','力荐9.5分'];
+
+  private star = ['很差6分','还行7分','一般8分','推荐9分','力荐10分'];
+
+  private commentScore = [6,7,8,9,10];
+
+  private halfscore = [5.5,6.5,7.5,8.5,9.5];
+
+  private slist = [0,0,0,0,0];
+
+  private userScore:number;
+
+  clickStart(index:number):void{
+  		let key = "start-"+index;
+  		let count = this.slist[index-1];
+  		if('undefined' == typeof(count)){
+  			count=1;
+  			this.slist[index-1]=count;
+  		}else{
+  			count=count+1;
+  			this.slist[index-1]=count;
+  		}
+
+  		for(var i=1;i<index;i++){
+  			$("#start-"+i).css("color","#FF6600");
+  		}
+  		if(index==1){
+  			if(count==15){
+  				count=1;
+  				this.slist[index-1]=count;
+  			}
+  			if(count>2){
+  				let lowscore = 6-0.5*(count-2);
+  				$("#span-score").html("很差"+lowscore+"分");
+  				this.userScore = lowscore;
+  				//颜色变化
+  				if((count%2)==0){
+  					$("#start-"+index).css("color","#FF6600");
+  				}else{
+  					$("#start-"+index).css("color","#FFCC00");
+  				}
+  			}else{
+  				if((count%2)==0){
+  					$("#start-"+index).css("color","#FF6600");
+  					$("#span-score").html(this.star[index-1]);
+  					this.userScore = this.commentScore[index-1];
+  				}else{
+  					$("#start-"+index).css("color","#FFCC00");
+  					$("#span-score").html(this.halfstar[index-1]);
+  					this.userScore = this.halfscore[index-1];
+  				}
+  			}
+  		}else{
+  			if((count%2)==0){
+  				$("#start-"+index).css("color","#FF6600");
+  				$("#span-score").html(this.star[index-1]);
+  				this.userScore = this.commentScore[index-1];
+  			}else{
+  				$("#start-"+index).css("color","#FFCC00");
+  				$("#span-score").html(this.halfstar[index-1]);
+  				this.userScore = this.halfscore[index-1];
+  			}
+  		}
+
+  		for(var i=index+1;i<=5;i++){
+  			$("#start-"+i).css("color","#666666");
+  		}
+
+  	}
+
+    overStart(index:number):void{
+		   for(var i=1;i<index;i++){
+			       $("#start-"+i).css("color","#FF6600");
+		   }
+
+		   $("#start-"+index).css("color","#FFCC00");
+
+		  for(var i=index+1;i<=5;i++){
+			   $("#start-"+i).css("color","#666666");
+		   }
+		  $("#span-score").html(this.halfstar[index-1]);
+		  this.userScore = this.halfscore[index-1];
+	 }
 
 }

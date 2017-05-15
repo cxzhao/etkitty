@@ -15,6 +15,10 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 
  private cartoonDetailUrl=baseUrl+'/cartoon/detail';
 
+ private userCommentUrl=baseUrl+'/etcom/query';
+
+ private cartoonTypeUrl=baseUrl+'/cartoonType/queryByCartoonId';
+
  constructor(private http: Http) {
    super();
   }
@@ -49,5 +53,15 @@ private extractData(res: Response) {
    const url = `${this.cartoonDetailUrl}?cartoonId=${id}`;
 	 return this.http.get(url,{headers: this.headers}).toPromise().then(this.extractData).catch(this.handleError);
  }
+
+ queryUserComment(page:number,size:number,objId:string){
+   const url = `${this.userCommentUrl}?objectId=${objId}&pageNumber=${page}&pageSize=${size}&type=0`;
+   return this.http.get(url,{headers: this.headers}).toPromise().then(this.extractData).catch(this.handleError);
+ }
+
+queryCartoonType(id:string){
+  const url = `${this.cartoonTypeUrl}?cartoonId=${id}`;
+  return this.http.get(url,{headers: this.headers}).toPromise().then(this.extractData).catch(this.handleError);
+	}
 
 }
